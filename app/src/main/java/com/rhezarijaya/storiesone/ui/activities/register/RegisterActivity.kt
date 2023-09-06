@@ -1,0 +1,115 @@
+package com.rhezarijaya.storiesone.ui.activities.register
+
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
+import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import com.rhezarijaya.storiesone.R
+import com.rhezarijaya.storiesone.databinding.ActivityRegisterBinding
+import com.rhezarijaya.storiesone.util.Helpers
+import com.rhezarijaya.storiesone.util.Result
+import com.rhezarijaya.storiesone.util.ViewModelFactory
+
+class RegisterActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityRegisterBinding
+
+    private val registerViewModel by viewModels<RegisterViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setInputsEnabled(true)
+        setRegisterButtonEnabled()
+
+        binding.edRegisterEmail.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                setRegisterButtonEnabled()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        binding.edRegisterPassword.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                setRegisterButtonEnabled()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        binding.btnRegister.setOnClickListener {
+            val name = binding.edRegisterName.text.toString()
+            val email = binding.edRegisterEmail.text.toString()
+            val password = binding.edRegisterPassword.text.toString()
+
+            if (name.isNotEmpty() &&
+                email.isNotEmpty() && Helpers.isEmailValid(email) &&
+                password.isNotEmpty() && Helpers.isPasswordValid(password)
+            ) {
+                setInputsEnabled(false)
+
+                registerViewModel.register(name, email, password).observe(this) { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            setLoadingVisible(false)
+
+                            Toast.makeText(
+                                this,
+                                getString(R.string.register_success),
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            finish()
+                        }
+
+                        is Result.Loading -> {
+                            setLoadingVisible(true)
+                        }
+
+                        is Result.Error -> {
+                            setLoadingVisible(false)
+                            setInputsEnabled(true)
+                            Helpers.retrofitExceptionHandler(this, result.exception)
+                        }
+                    }
+                }
+            } else {
+                Toast.makeText(this, getString(R.string.invalid_inputs), Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun setInputsEnabled(isEnabled: Boolean) = binding.run {
+        btnRegister.isEnabled = isEnabled
+        edRegisterName.isEnabled = isEnabled
+        edRegisterEmail.isEnabled = isEnabled
+        edRegisterPassword.isEnabled = isEnabled
+    }
+
+    private fun setLoadingVisible(isVisible: Boolean) {
+        binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
+    }
+
+    private fun setRegisterButtonEnabled() = binding.run {
+        val name = edRegisterName.text.toString()
+        val email = edRegisterEmail.text.toString()
+        val password = edRegisterPassword.text.toString()
+
+        btnRegister.isEnabled =
+            name.isNotEmpty() &&
+                    email.isNotEmpty() && Helpers.isEmailValid(email) &&
+                    password.isNotEmpty() && Helpers.isPasswordValid(password)
+    }
+}

@@ -1,0 +1,49 @@
+package com.rhezarijaya.storiesone.data
+
+import androidx.lifecycle.liveData
+import com.rhezarijaya.storiesone.data.network.LocationType
+import com.rhezarijaya.storiesone.data.network.service.StoryAPIService
+import com.rhezarijaya.storiesone.util.Helpers
+import com.rhezarijaya.storiesone.util.Result
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
+
+class StoryRepository(
+    private val storyApiService: StoryAPIService
+) {
+    fun addStory(description: String, photo: File, latitude: Double?, longitude: Double?) =
+        liveData {
+            try {
+                emit(Result.Loading)
+                emit(
+                    Result.Success(
+                        storyApiService.addStory(
+                            description.toRequestBody("text/plain".toMediaType()),
+                            MultipartBody.Part.createFormData(
+                                "photo",
+                                photo.name,
+                                Helpers.imageCompressor(photo)
+                                    .asRequestBody("image/jpeg".toMediaType())
+                            ),
+                            latitude?.toString()?.toRequestBody("text/plain".toMediaType()),
+                            longitude?.toString()?.toRequestBody("text/plain".toMediaType()),
+                        )
+                    )
+                )
+            } catch (e: Exception) {
+                emit(Result.Error(e))
+            }
+        }
+
+    fun getStories(page: Int?, size: Int?, location: LocationType) = liveData {
+        try {
+            emit(Result.Loading)
+            emit(Result.Success(storyApiService.getStories(page, size, location.type)))
+        } catch (e: Exception) {
+            emit(Result.Error(e))
+        }
+    }
+}
