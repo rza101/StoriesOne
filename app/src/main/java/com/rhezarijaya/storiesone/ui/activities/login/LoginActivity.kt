@@ -85,9 +85,14 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                         is Result.Error -> {
-                            setLoadingVisible(false)
-                            setInputsEnabled(true)
-                            Helpers.retrofitExceptionHandler(this, result.exception)
+                            result.exception.getData()?.let { exception ->
+                                setLoadingVisible(false)
+                                setInputsEnabled(true)
+                                Helpers.retrofitExceptionHandler(
+                                    this,
+                                    exception
+                                )
+                            }
                         }
                     }
                 }

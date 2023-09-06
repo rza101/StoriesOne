@@ -153,8 +153,13 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 is Result.Error -> {
-                    setLoadingVisible(false)
-                    Helpers.retrofitExceptionHandler(this, result.exception)
+                    result.exception.getData()?.let { exception ->
+                        setLoadingVisible(false)
+                        Helpers.retrofitExceptionHandler(
+                            this,
+                            exception
+                        )
+                    }
                 }
             }
         }

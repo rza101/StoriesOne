@@ -5,6 +5,7 @@ import com.rhezarijaya.storiesone.data.network.LocationType
 import com.rhezarijaya.storiesone.data.network.service.StoryAPIService
 import com.rhezarijaya.storiesone.util.Helpers
 import com.rhezarijaya.storiesone.util.Result
+import com.rhezarijaya.storiesone.util.SingleEvent
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -34,7 +35,7 @@ class StoryRepository(
                     )
                 )
             } catch (e: Exception) {
-                emit(Result.Error(e))
+                emit(Result.Error(SingleEvent(e)))
             }
         }
 
@@ -43,7 +44,7 @@ class StoryRepository(
             emit(Result.Loading)
             emit(Result.Success(storyApiService.getStories(page, size, location.type)))
         } catch (e: Exception) {
-            emit(Result.Error(e))
+            emit(Result.Error(SingleEvent(e)))
         }
     }
 }

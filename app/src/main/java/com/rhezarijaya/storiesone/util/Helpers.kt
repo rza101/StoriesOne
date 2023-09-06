@@ -38,22 +38,6 @@ object Helpers {
         }
     }
 
-    fun createImageFile(application: Application): File {
-        val mediaDirectory = application.externalMediaDirs.firstOrNull()?.let {
-            File(it, "${application.getString(R.string.app_name)} Photos").apply {
-                mkdirs()
-            }
-        }
-
-        val outputDirectory = if (mediaDirectory != null && mediaDirectory.exists()) {
-            mediaDirectory
-        } else {
-            application.filesDir
-        }
-
-        return File(outputDirectory, "photo_${System.currentTimeMillis()}.jpg")
-    }
-
     fun createTempImageFile(context: Context): File =
         File.createTempFile(
             "temp${Random.nextLong(100, 999)}_${System.currentTimeMillis()}",

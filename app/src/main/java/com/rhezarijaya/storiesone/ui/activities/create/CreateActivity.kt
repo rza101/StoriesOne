@@ -142,7 +142,7 @@ class CreateActivity : AppCompatActivity() {
 
             buttonAdd.setOnClickListener {
                 imageFile?.let {
-                    setInputEnabled(false)
+                    setInputsEnabled(false)
                     val description = edAddDescription.text.toString()
 
                     createViewModel.addStory(description, it, null, null)
@@ -165,12 +165,14 @@ class CreateActivity : AppCompatActivity() {
                                 }
 
                                 is Result.Error -> {
-                                    setLoadingVisible(false)
-                                    setInputEnabled(true)
-                                    Helpers.retrofitExceptionHandler(
-                                        this@CreateActivity,
-                                        result.exception
-                                    )
+                                    result.exception.getData()?.let { exception ->
+                                        setLoadingVisible(false)
+                                        setInputsEnabled(true)
+                                        Helpers.retrofitExceptionHandler(
+                                            this@CreateActivity,
+                                            exception
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -195,7 +197,7 @@ class CreateActivity : AppCompatActivity() {
             imageFile != null && binding.edAddDescription.text.toString().isNotEmpty()
     }
 
-    private fun setInputEnabled(isEnabled: Boolean) {
+    private fun setInputsEnabled(isEnabled: Boolean) {
         binding.btnCamera.isEnabled = isEnabled
         binding.btnGallery.isEnabled = isEnabled
         binding.edAddDescription.isEnabled = isEnabled

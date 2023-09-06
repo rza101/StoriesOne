@@ -5,6 +5,7 @@ import com.rhezarijaya.storiesone.data.datastore.AppPreference
 import com.rhezarijaya.storiesone.data.network.response.LoginResult
 import com.rhezarijaya.storiesone.data.network.service.StoryAPIService
 import com.rhezarijaya.storiesone.util.Result
+import com.rhezarijaya.storiesone.util.SingleEvent
 import kotlinx.coroutines.flow.first
 
 class UserRepository(
@@ -28,7 +29,7 @@ class UserRepository(
             emit(Result.Loading)
             emit(Result.Success(storyApiService.login(email, password)))
         } catch (e: Exception) {
-            emit(Result.Error(e))
+            emit(Result.Error(SingleEvent(e)))
         }
     }
 
@@ -41,7 +42,7 @@ class UserRepository(
             emit(Result.Loading)
             emit(Result.Success(storyApiService.register(name, email, password)))
         } catch (e: Exception) {
-            emit(Result.Error(e))
+            emit(Result.Error(SingleEvent(e)))
         }
     }
 
