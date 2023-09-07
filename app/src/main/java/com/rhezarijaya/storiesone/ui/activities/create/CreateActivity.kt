@@ -42,11 +42,14 @@ class CreateActivity : AppCompatActivity() {
     private val intentCameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                Toast.makeText(this, "You can use camera now", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.camera_permission_granted), Toast.LENGTH_SHORT
+                ).show()
             } else {
                 Toast.makeText(
                     this,
-                    "Camera permission must be enabled to use camera",
+                    getString(R.string.camera_permission_denied),
                     Toast.LENGTH_SHORT
                 ).show()
             }

@@ -5,6 +5,8 @@
     <string name="created_at_format">Posted at: %s</string>
 
     <string name="camera">Camera</string>
+    <string name="camera_permission_denied">Camera permission must be enabled to use camera</string>
+    <string name="camera_permission_granted">You can use camera now</string>
     <string name="change_language">Change Language</string>
     <string name="change_language_confirm">Go to language settings?</string>
     <string name="choose_an_image">Choose an image</string>

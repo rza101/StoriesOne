@@ -13,10 +13,12 @@ class UserRepository(
     private val appPreference: AppPreference
 ) {
     suspend fun getLoginData(): LoginResult? {
-        appPreference.getName().first()?.let { name ->
-            appPreference.getUserId().first()?.let { userId ->
-                appPreference.getToken().first()?.let { token ->
-                    return LoginResult(name, userId, token)
+        appPreference.run {
+            getName().first()?.let { name ->
+                getUserId().first()?.let { userId ->
+                    getToken().first()?.let { token ->
+                        return LoginResult(name, userId, token)
+                    }
                 }
             }
         }
@@ -33,9 +35,7 @@ class UserRepository(
         }
     }
 
-    suspend fun logout() {
-        appPreference.clearPreferences()
-    }
+    suspend fun logout() = appPreference.clearPreferences()
 
     fun register(name: String, email: String, password: String) = liveData {
         try {
@@ -46,9 +46,9 @@ class UserRepository(
         }
     }
 
-    suspend fun saveLoginData(loginResult: LoginResult) {
-        appPreference.setName(loginResult.name)
-        appPreference.setUserId(loginResult.userId)
-        appPreference.setToken(loginResult.token)
+    suspend fun saveLoginData(loginResult: LoginResult) = appPreference.apply {
+        setName(loginResult.name)
+        setUserId(loginResult.userId)
+        setToken(loginResult.token)
     }
 }

@@ -4,6 +4,8 @@
     <string name="created_at_format">Dibuat pada: %s</string>
 
     <string name="camera">Kamera</string>
+    <string name="camera_permission_denied">Perizinan kamera harus diaktifkan agar dapat menggunakan kamera</string>
+    <string name="camera_permission_granted">Anda dapat menggunakan kamera</string>
     <string name="change_language">Ganti Bahasa</string>
     <string name="change_language_confirm">Pindah ke pengaturan bahasa?</string>
     <string name="choose_an_image">Pilih sebuah gambar</string>
