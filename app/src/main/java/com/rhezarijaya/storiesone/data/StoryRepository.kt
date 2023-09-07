@@ -26,7 +26,7 @@ class StoryRepository(
                             MultipartBody.Part.createFormData(
                                 "photo",
                                 photo.name,
-                                Helpers.imageCompressor(photo)
+                                Helpers.compressImage(photo)
                                     .asRequestBody("image/jpeg".toMediaType())
                             ),
                             latitude?.toString()?.toRequestBody("text/plain".toMediaType()),

@@ -29,13 +29,14 @@ class CreateActivity : AppCompatActivity() {
     private val intentCameraLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
-                imageFile = File(cameraImageFilepath)
+                createViewModel.cameraImageFilepath?.let { path ->
+                    createViewModel.setImageFile(File(path))
+                    createViewModel.getImageFile()?.let { file ->
+                        setPreviewImage(file)
+                    }
 
-                Glide.with(this)
-                    .load(imageFile)
-                    .placeholder(R.drawable.baseline_broken_image_24)
-                    .error(R.drawable.baseline_broken_image_24)
-                    .into(binding.ivPreview)
+                    setAddButtonEnabled()
+                }
             }
         }
     private val intentCameraPermissionLauncher =
@@ -56,21 +57,16 @@ class CreateActivity : AppCompatActivity() {
                 val imageUri = it.data?.data!!
                 val imageFileGallery = Helpers.readImageFromUri(this, imageUri)
 
-                imageFile = imageFileGallery
-                Glide.with(this)
-                    .load(imageUri)
-                    .placeholder(R.drawable.baseline_broken_image_24)
-                    .error(R.drawable.baseline_broken_image_24)
-                    .into(binding.ivPreview)
+                createViewModel.setImageFile(imageFileGallery)
+                createViewModel.getImageFile()?.let { file ->
+                    setPreviewImage(file)
+                }
 
-                setButtonEnabled()
+                setAddButtonEnabled()
             }
         }
 
     private lateinit var binding: ActivityCreateBinding
-    private lateinit var cameraImageFilepath: String
-
-    private var imageFile: File? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,7 +83,11 @@ class CreateActivity : AppCompatActivity() {
             intentCameraPermissionLauncher.launch(CAMERA_PERMISSION)
         }
 
-        setButtonEnabled()
+        createViewModel.getImageFile()?.let {
+            setPreviewImage(it)
+        }
+
+        setAddButtonEnabled()
 
         binding.apply {
             edAddDescription.addTextChangedListener(object : TextWatcher {
@@ -100,7 +100,7 @@ class CreateActivity : AppCompatActivity() {
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    setButtonEnabled()
+                    setAddButtonEnabled()
                 }
 
                 override fun afterTextChanged(s: Editable?) {}
@@ -121,7 +121,7 @@ class CreateActivity : AppCompatActivity() {
                     tempImage
                 )
 
-                cameraImageFilepath = tempImage.absolutePath
+                createViewModel.cameraImageFilepath = tempImage.absolutePath
 
                 intent.resolveActivity(packageManager)
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, tempImageUri)
@@ -141,7 +141,7 @@ class CreateActivity : AppCompatActivity() {
             }
 
             buttonAdd.setOnClickListener {
-                imageFile?.let {
+                createViewModel.getImageFile()?.let {
                     setInputsEnabled(false)
                     val description = edAddDescription.text.toString()
 
@@ -192,9 +192,10 @@ class CreateActivity : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
-    private fun setButtonEnabled() {
+    private fun setAddButtonEnabled() {
         binding.buttonAdd.isEnabled =
-            imageFile != null && binding.edAddDescription.text.toString().isNotEmpty()
+            createViewModel.getImageFile() != null && binding.edAddDescription.text.toString()
+                .isNotEmpty()
     }
 
     private fun setInputsEnabled(isEnabled: Boolean) {
@@ -206,6 +207,14 @@ class CreateActivity : AppCompatActivity() {
 
     private fun setLoadingVisible(isVisible: Boolean) {
         binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
+    }
+
+    private fun setPreviewImage(file: File) {
+        Glide.with(this)
+            .load(file)
+            .placeholder(R.drawable.baseline_broken_image_24)
+            .error(R.drawable.baseline_broken_image_24)
+            .into(binding.ivPreview)
     }
 
     companion object {

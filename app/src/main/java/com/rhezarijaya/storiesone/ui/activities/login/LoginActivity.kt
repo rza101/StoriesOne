@@ -75,6 +75,14 @@ class LoginActivity : AppCompatActivity() {
 
                             lifecycleScope.launch {
                                 loginViewModel.saveLoginData(result.data.loginResult)
+
+                                // terdapat bug dimana terkadang setelah login terdapat masalah bad header
+                                // hasil analisis saya dikarenakan object api service pada injection masih
+                                // belum menggunakan bearer token dari login karena merupakan singleton
+                                // sehingga jika tidak di clear instancenya (atau restart aplikasi)
+                                // akan masih menggunakan api service yang tanpa bearer token
+                                ViewModelFactory.clearInstance()
+
                                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                                 finish()
                             }

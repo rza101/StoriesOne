@@ -48,6 +48,11 @@ class ViewModelFactory private constructor(
         private var instance: ViewModelFactory? = null
 
         @JvmStatic
+        fun clearInstance() {
+            instance = null
+        }
+
+        @JvmStatic
         fun getInstance(context: Context): ViewModelFactory {
             if (instance == null) {
                 synchronized(this) {

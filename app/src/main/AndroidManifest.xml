@@ -13,6 +13,14 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -29,6 +37,7 @@
             android:theme="@style/Base.Theme.StoriesOne.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -42,13 +51,16 @@
             android:theme="@style/Base.Theme.StoriesOne.NoActionBar" />
         <activity
             android:name=".ui.activities.main.MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTop" />
         <activity
             android:name=".ui.activities.create.CreateActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.activities.main.MainActivity" />
         <activity
             android:name=".ui.activities.detail.DetailActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.activities.main.MainActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -61,11 +73,4 @@
         </provider>
     </application>
 
-    <queries>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="https" />
-        </intent>
-    </queries>
 </manifest>

@@ -104,6 +104,7 @@ class MainActivity : AppCompatActivity() {
                 .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
                     lifecycleScope.launch {
                         mainViewModel.logout()
+                        ViewModelFactory.clearInstance()
                         dialog.dismiss()
 
                         Toast.makeText(
@@ -127,6 +128,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadData(scrollToTop: Boolean = false) {
+        setInfoText(null)
         mainViewModel.getStories().observe(this) { result ->
             when (result) {
                 is Result.Success -> {
@@ -139,6 +141,10 @@ class MainActivity : AppCompatActivity() {
                             if (scrollToTop) {
                                 binding.rvStories.scrollToPosition(0)
                             }
+                        }
+
+                        if (result.data.listStory.isEmpty()) {
+                            setInfoText(getString(R.string.no_data))
                         }
                     } else {
                         Toast.makeText(
@@ -153,6 +159,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 is Result.Error -> {
+                    setInfoText(getString(R.string.failed_to_fetch_data))
                     result.exception.getData()?.let { exception ->
                         setLoadingVisible(false)
                         Helpers.retrofitExceptionHandler(
@@ -163,6 +170,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun setInfoText(info: String?) {
+        binding.tvMainInfo.text = info ?: ""
+        binding.tvMainInfo.visibility =
+            if (info.isNullOrEmpty()) View.GONE else View.VISIBLE
     }
 
     private fun setLoadingVisible(isVisible: Boolean) {

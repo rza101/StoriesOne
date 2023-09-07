@@ -1,14 +1,16 @@
 package com.rhezarijaya.storiesone.util
 
-import android.app.Application
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
 import android.util.Patterns
 import android.widget.Toast
+import androidx.camera.core.impl.utils.Exif
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.rhezarijaya.storiesone.BuildConfig
@@ -25,6 +27,21 @@ import java.util.TimeZone
 import kotlin.random.Random
 
 object Helpers {
+    @SuppressLint("RestrictedApi")
+    fun adjustImageRotation(file: File) {
+        // rotasi diambil otomatis dengan metadata exif
+        val exifData = Exif.createFromFile(file)
+        val rotation = exifData.rotation
+
+        val bitmapFile = BitmapFactory.decodeFile(file.path)
+        val matrix = Matrix().apply {
+            postRotate(rotation.toFloat())
+        }
+
+        Bitmap.createBitmap(bitmapFile, 0, 0, bitmapFile.width, bitmapFile.height, matrix, true)
+            .compress(Bitmap.CompressFormat.JPEG, 100, FileOutputStream(file))
+    }
+
     fun apiDateFormatter(dateString: String): String {
         // 2022-01-08T06:34:18.598Z
         return try {
@@ -38,14 +55,7 @@ object Helpers {
         }
     }
 
-    fun createTempImageFile(context: Context): File =
-        File.createTempFile(
-            "temp${Random.nextLong(100, 999)}_${System.currentTimeMillis()}",
-            ".jpg",
-            context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        )
-
-    fun imageCompressor(file: File): File {
+    fun compressImage(file: File): File {
         val bitmap = BitmapFactory.decodeFile(file.path)
 
         var quality = 100
@@ -63,9 +73,19 @@ object Helpers {
         return file
     }
 
+    fun createTempImageFile(context: Context): File =
+        File.createTempFile(
+            "temp${Random.nextLong(100, 999)}_${System.currentTimeMillis()}",
+            ".jpg",
+            context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        )
+
     fun isEmailValid(email: String) = Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
     fun isPasswordValid(password: String) = password.length >= 8
+
+    fun isPermissionGranted(context: Context, permission: String): Boolean =
+        ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
 
     fun readImageFromUri(context: Context, uri: Uri): File {
         val file = createTempImageFile(context)
@@ -117,7 +137,4 @@ object Helpers {
             ).show()
         }
     }
-
-    fun isPermissionGranted(context: Context, permission: String): Boolean =
-        ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
 }
