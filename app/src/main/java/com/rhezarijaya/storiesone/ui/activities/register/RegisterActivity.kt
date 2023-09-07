@@ -29,6 +29,7 @@ class RegisterActivity : AppCompatActivity() {
         setInputsEnabled(true)
         setRegisterButtonEnabled()
 
+        // TODO use only ontextchanged, ref: create activity
         binding.edRegisterEmail.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 

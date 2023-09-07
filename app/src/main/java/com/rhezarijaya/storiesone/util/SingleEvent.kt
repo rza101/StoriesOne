@@ -12,5 +12,6 @@ class SingleEvent<out T>(private val data: T) {
         data
     }
 
+    // TODO remove unused
     fun peekData(): T = data
 }

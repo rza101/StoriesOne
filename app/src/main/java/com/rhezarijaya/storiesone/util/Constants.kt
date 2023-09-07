@@ -4,3 +4,11 @@ object Constants {
     const val SPLASH_SCREEN_DELAY = 2000L
     const val IMAGE_MAX_SIZE = 1_000_000
 }
+// TODO
+// Analyze → Inspect Code
+// Analyze - Code Cleanup
+// Remove Unused Resource
+// Ctrl+Alt+O / optimize import
+// Reformat Code
+// android:contentDescription
+// cek dribble for reference: https://dribbble.com/search/shots/popular/mobile?q=travelling

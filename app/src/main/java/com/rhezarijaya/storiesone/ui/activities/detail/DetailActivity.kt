@@ -34,6 +34,7 @@ class DetailActivity : AppCompatActivity() {
             finish()
         } else {
             binding.apply {
+                // TODO use extension function
                 Glide.with(this@DetailActivity)
                     .load(story.photoUrl)
                     .placeholder(R.drawable.baseline_broken_image_24)

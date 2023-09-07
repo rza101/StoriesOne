@@ -8,6 +8,8 @@ import androidx.appcompat.widget.AppCompatEditText
 import com.rhezarijaya.storiesone.R
 import com.rhezarijaya.storiesone.util.Helpers
 
+// TODO combine to single custom edit text
+// reference: https://gist.github.com/yumtaufikhidayat/d4ef52fbb7206c46f918f95ae77f37ff
 class PasswordEditText : AppCompatEditText {
     constructor(context: Context) : super(context) {
         initialize()

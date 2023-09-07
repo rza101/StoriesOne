@@ -93,6 +93,8 @@ class CreateActivity : AppCompatActivity() {
         setAddButtonEnabled()
 
         binding.apply {
+            // TODO use only ontextchanged
+            // edAddDescription.addTextChangedListener(onTextChanged = {_, _, _, _ -> setAddButtonEnabled() })
             edAddDescription.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
