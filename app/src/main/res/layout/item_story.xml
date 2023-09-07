@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/post_photo"
             android:maxHeight="250dp"
             android:scaleType="fitCenter"
             app:layout_constraintTop_toBottomOf="@id/tv_item_name"

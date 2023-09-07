@@ -4,7 +4,6 @@
     <string name="coordinate_format">Position: %.5f, %.5f</string>
     <string name="created_at_format">Posted at: %s</string>
 
-    <string name="accept_image">Accept Image</string>
     <string name="camera">Camera</string>
     <string name="change_language">Change Language</string>
     <string name="change_language_confirm">Go to language settings?</string>
@@ -16,6 +15,7 @@
     <string name="failed_to_fetch_data">Failed to fetch data</string>
     <string name="gallery">Gallery</string>
     <string name="image_and_desc_required">Please select an image and fill the description first</string>
+    <string name="image_preview">Image Preview</string>
     <string name="invalid_email">Invalid email</string>
     <string name="invalid_inputs">Invalid inputs</string>
     <string name="invalid_password">Password length must be at least 8 characters</string>
@@ -29,6 +29,7 @@
     <string name="no_data">No Data</string>
     <string name="password">Password</string>
     <string name="post_creation_success">Post creation success!</string>
+    <string name="post_photo">Post Photo</string>
     <string name="register">Register</string>
     <string name="register_success">Register Success! You can login with new account</string>
     <string name="story_list_fetch_failed">Failed to fetch story</string>

@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">StoriesOne</string>
-
     <string name="coordinate_format">Posisi: %.5f, %.5f</string>
     <string name="created_at_format">Dibuat pada: %s</string>
 
-    <string name="accept_image">Pakai Gambar</string>
     <string name="camera">Kamera</string>
     <string name="change_language">Ganti Bahasa</string>
     <string name="change_language_confirm">Pindah ke pengaturan bahasa?</string>
@@ -17,6 +14,7 @@
     <string name="failed_to_fetch_data">Gagal memuat data</string>
     <string name="gallery">Galeri</string>
     <string name="image_and_desc_required">Mohon untuk memilih gambar dan mengisi deskripsi dahulu</string>
+    <string name="image_preview">Pratinjau Foto</string>
     <string name="invalid_email">Email tidak valid</string>
     <string name="invalid_inputs">Input tidak valid</string>
     <string name="invalid_password">Panjang kata sandi harus 8 karakter atau lebih</string>
@@ -30,6 +28,7 @@
     <string name="no_data">Tidak ada data</string>
     <string name="password">Kata Sandi</string>
     <string name="post_creation_success">Berhasil membuat cerita!</string>
+    <string name="post_photo">Foto Cerita</string>
     <string name="register">Daftar</string>
     <string name="register_success">Berhasil daftar! Anda bisa masuk dengan akun baru anda</string>
     <string name="story_list_fetch_failed">Gagal mendapatkan cerita</string>
