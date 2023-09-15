@@ -39,7 +39,7 @@ class StoryRepository(
             }
         }
 
-    fun getStories(page: Int?, size: Int?, location: LocationType) = liveData {
+    fun getStories(page: Int? = null, size: Int? = null, location: LocationType) = liveData {
         try {
             emit(Result.Loading)
             emit(Result.Success(storyApiService.getStories(page, size, location.type)))

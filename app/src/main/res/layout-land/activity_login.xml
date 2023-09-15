@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.rhezarijaya.storiesone.ui.customview.EmailEditText
+    <com.rhezarijaya.storiesone.ui.customview.CustomEditText
         android:id="@+id/ed_login_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintWidth_percent="0.5" />
 
-    <com.rhezarijaya.storiesone.ui.customview.PasswordEditText
+    <com.rhezarijaya.storiesone.ui.customview.CustomEditText
         android:id="@+id/ed_login_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

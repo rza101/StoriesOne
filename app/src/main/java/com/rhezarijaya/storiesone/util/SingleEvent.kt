@@ -11,7 +11,4 @@ class SingleEvent<out T>(private val data: T) {
         isRetrieved = true
         data
     }
-
-    // TODO remove unused
-    fun peekData(): T = data
 }

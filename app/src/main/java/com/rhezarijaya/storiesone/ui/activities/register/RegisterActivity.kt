@@ -1,12 +1,12 @@
 package com.rhezarijaya.storiesone.ui.activities.register
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import com.rhezarijaya.storiesone.R
 import com.rhezarijaya.storiesone.databinding.ActivityRegisterBinding
 import com.rhezarijaya.storiesone.util.Helpers
@@ -29,26 +29,17 @@ class RegisterActivity : AppCompatActivity() {
         setInputsEnabled(true)
         setRegisterButtonEnabled()
 
-        // TODO use only ontextchanged, ref: create activity
-        binding.edRegisterEmail.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        binding.edRegisterEmail.addTextChangedListener(
+            onTextChanged = { _, _, _, _ ->
                 setRegisterButtonEnabled()
             }
+        )
 
-            override fun afterTextChanged(s: Editable?) {}
-        })
-
-        binding.edRegisterPassword.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        binding.edRegisterPassword.addTextChangedListener(
+            onTextChanged = { _, _, _, _ ->
                 setRegisterButtonEnabled()
             }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
+        )
 
         binding.btnRegister.setOnClickListener {
             val name = binding.edRegisterName.text.toString()
@@ -105,7 +96,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun setLoadingVisible(isVisible: Boolean) {
-        binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
+        binding.progressBar.isVisible = isVisible
     }
 
     private fun setRegisterButtonEnabled() = binding.run {

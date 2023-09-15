@@ -5,10 +5,12 @@ object Constants {
     const val IMAGE_MAX_SIZE = 1_000_000
 }
 // TODO
+// android:contentDescription
+// cek dribble for reference: https://dribbble.com/search/shots/popular/mobile?q=travelling
+
+// AFTER DONE
 // Analyze → Inspect Code
 // Analyze - Code Cleanup
 // Remove Unused Resource
 // Ctrl+Alt+O / optimize import
 // Reformat Code
-// android:contentDescription
-// cek dribble for reference: https://dribbble.com/search/shots/popular/mobile?q=travelling

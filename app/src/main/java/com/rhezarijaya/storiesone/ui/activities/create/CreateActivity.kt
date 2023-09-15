@@ -4,14 +4,13 @@ import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
 import com.rhezarijaya.storiesone.BuildConfig
 import com.rhezarijaya.storiesone.R
@@ -93,23 +92,11 @@ class CreateActivity : AppCompatActivity() {
         setAddButtonEnabled()
 
         binding.apply {
-            // TODO use only ontextchanged
-            // edAddDescription.addTextChangedListener(onTextChanged = {_, _, _, _ -> setAddButtonEnabled() })
-            edAddDescription.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            edAddDescription.addTextChangedListener(
+                onTextChanged = { _, _, _, _ ->
                     setAddButtonEnabled()
                 }
-
-                override fun afterTextChanged(s: Editable?) {}
-            })
+            )
 
             btnCamera.setOnClickListener {
                 if (!Helpers.isPermissionGranted(this@CreateActivity, CAMERA_PERMISSION)) {
@@ -211,7 +198,7 @@ class CreateActivity : AppCompatActivity() {
     }
 
     private fun setLoadingVisible(isVisible: Boolean) {
-        binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
+        binding.progressBar.isVisible = isVisible
     }
 
     private fun setPreviewImage(file: File) {

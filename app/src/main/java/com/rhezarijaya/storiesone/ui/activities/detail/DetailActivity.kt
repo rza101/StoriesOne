@@ -2,13 +2,13 @@ package com.rhezarijaya.storiesone.ui.activities.detail
 
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
+import androidx.core.view.isVisible
 import com.rhezarijaya.storiesone.R
 import com.rhezarijaya.storiesone.data.network.response.Story
 import com.rhezarijaya.storiesone.databinding.ActivityDetailBinding
 import com.rhezarijaya.storiesone.util.Helpers
+import com.rhezarijaya.storiesone.util.loadImage
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
@@ -34,12 +34,8 @@ class DetailActivity : AppCompatActivity() {
             finish()
         } else {
             binding.apply {
-                // TODO use extension function
-                Glide.with(this@DetailActivity)
-                    .load(story.photoUrl)
-                    .placeholder(R.drawable.baseline_broken_image_24)
-                    .error(R.drawable.baseline_broken_image_24)
-                    .into(ivDetailPhoto)
+                ivDetailPhoto.loadImage(story.photoUrl)
+
                 tvDetailName.text = story.name
                 tvDetailDescription.text = story.description
                 tvDetailCreatedAt.text =
@@ -49,7 +45,7 @@ class DetailActivity : AppCompatActivity() {
                     tvDetailCoordinate.text =
                         getString(R.string.coordinate_format, story.lat, story.lon)
                 } else {
-                    tvDetailCoordinate.visibility = View.GONE
+                    tvDetailCoordinate.isVisible = false
                 }
             }
         }

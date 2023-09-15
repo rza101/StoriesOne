@@ -9,6 +9,7 @@ import com.rhezarijaya.storiesone.di.Injection
 import com.rhezarijaya.storiesone.ui.activities.create.CreateViewModel
 import com.rhezarijaya.storiesone.ui.activities.login.LoginViewModel
 import com.rhezarijaya.storiesone.ui.activities.main.MainViewModel
+import com.rhezarijaya.storiesone.ui.activities.maps.MapsViewModel
 import com.rhezarijaya.storiesone.ui.activities.register.RegisterViewModel
 import com.rhezarijaya.storiesone.ui.activities.splash.SplashViewModel
 
@@ -29,6 +30,10 @@ class ViewModelFactory private constructor(
 
             modelClass.isAssignableFrom(MainViewModel::class.java) -> MainViewModel(
                 storyRepository, userRepository
+            ) as T
+
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> MapsViewModel(
+                storyRepository
             ) as T
 
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> RegisterViewModel(

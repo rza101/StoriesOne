@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/root_padding_tablet">
+        android:paddingBottom="@dimen/root_padding_tablet">
 
         <ImageView
             android:id="@+id/iv_detail_photo"
@@ -27,6 +27,7 @@
             android:id="@+id/tv_detail_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/root_padding_tablet"
             android:layout_marginTop="12dp"
             android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
             android:textStyle="bold"
@@ -43,8 +44,8 @@
             android:layout_marginTop="4dp"
             android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_detail_name"
+            app:layout_constraintStart_toStartOf="@id/tv_detail_name"
             app:layout_constraintTop_toBottomOf="@id/tv_detail_name"
             tools:text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rhoncus malesuada leo, vel tempor libero tempor malesuada. Donec posuere facilisis felis, non interdum magna efficitur eu.' />
 
@@ -55,8 +56,8 @@
             android:layout_marginTop="4dp"
             android:alpha="0.65"
             android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_detail_name"
+            app:layout_constraintStart_toStartOf="@id/tv_detail_name"
             app:layout_constraintTop_toBottomOf="@id/tv_detail_description"
             tools:text="Posted at: 2023-12-31 23:59:59" />
 
@@ -67,8 +68,8 @@
             android:layout_marginTop="4dp"
             android:alpha="0.65"
             android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_detail_name"
+            app:layout_constraintStart_toStartOf="@id/tv_detail_name"
             app:layout_constraintTop_toBottomOf="@id/tv_detail_created_at"
             tools:text="Position: -10.212, -16.002" />
 

@@ -9,7 +9,9 @@ class MainViewModel(
     private val storyRepository: StoryRepository,
     private val userRepository: UserRepository
 ) : ViewModel() {
-    fun getStories() = storyRepository.getStories(null, null, LocationType.LOCATION_OFF)
+    fun getStories() = storyRepository.getStories(location = LocationType.LOCATION_OFF)
+
+    suspend fun isLoggedIn() = userRepository.getLoginData() != null
 
     suspend fun logout() = userRepository.logout()
 }

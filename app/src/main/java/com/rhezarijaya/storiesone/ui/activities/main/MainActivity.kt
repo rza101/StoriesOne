@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -14,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +22,7 @@ import com.rhezarijaya.storiesone.databinding.ActivityMainBinding
 import com.rhezarijaya.storiesone.ui.activities.create.CreateActivity
 import com.rhezarijaya.storiesone.ui.activities.detail.DetailActivity
 import com.rhezarijaya.storiesone.ui.activities.login.LoginActivity
+import com.rhezarijaya.storiesone.ui.activities.maps.MapsActivity
 import com.rhezarijaya.storiesone.ui.adapters.StoryItemAdapter
 import com.rhezarijaya.storiesone.util.Helpers
 import com.rhezarijaya.storiesone.util.Result
@@ -57,21 +58,41 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.rvStories.apply {
-            adapter = storyItemAdapter
-            layoutManager =
-                if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    LinearLayoutManager(this@MainActivity)
-                } else {
-                    GridLayoutManager(this@MainActivity, 2)
-                }
-        }
+        lifecycleScope.launch {
+            val isLoggedIn = mainViewModel.isLoggedIn()
 
-        binding.fabAdd.setOnClickListener {
-            intentCreateLauncher.launch(Intent(this, CreateActivity::class.java))
-        }
+            if (!isLoggedIn) {
+                Toast.makeText(
+                    this@MainActivity,
+                    getString(R.string.not_logged_in),
+                    Toast.LENGTH_SHORT
+                ).show()
+                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                finish()
 
-        loadData()
+                return@launch
+            }
+
+            binding.rvStories.apply {
+                adapter = storyItemAdapter
+                layoutManager =
+                    if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        LinearLayoutManager(this@MainActivity)
+                    } else {
+                        GridLayoutManager(this@MainActivity, 2)
+                    }
+            }
+
+            binding.fabAdd.setOnClickListener {
+                intentCreateLauncher.launch(Intent(this@MainActivity, CreateActivity::class.java))
+            }
+
+            binding.fabRefresh.setOnClickListener {
+                loadData(true)
+            }
+
+            loadData()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -124,6 +145,12 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        R.id.action_maps -> {
+            startActivity(Intent(this, MapsActivity::class.java))
+
+            true
+        }
+
         else -> super.onOptionsItemSelected(item)
     }
 
@@ -139,7 +166,7 @@ class MainActivity : AppCompatActivity() {
                             // callback ini akan dipanggil setelah selesai melakukan diff
                             // jika perlu scroll ke atas maka akan dilakukan scroll
                             if (scrollToTop) {
-                                binding.rvStories.scrollToPosition(0)
+                                binding.rvStories.smoothScrollToPosition(0)
                             }
                         }
 
@@ -174,12 +201,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setInfoText(info: String?) {
         binding.tvMainInfo.text = info ?: ""
-        binding.tvMainInfo.visibility =
-            if (info.isNullOrEmpty()) View.GONE else View.VISIBLE
+        binding.tvMainInfo.isVisible = !info.isNullOrEmpty()
     }
 
     private fun setLoadingVisible(isVisible: Boolean) {
-        binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
+        binding.progressBar.isVisible = isVisible
+        binding.fabRefresh.isEnabled = !isVisible
     }
 
     companion object {

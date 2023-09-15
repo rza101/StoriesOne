@@ -38,4 +38,11 @@
     <string name="unexpected_error">Unexpected error</string>
     <string name="upload_post">Upload Post</string>
     <string name="yes">Yes</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="maps">Maps</string>
+    <string name="not_logged_in">You are not logged in. Please login first</string>
+    <string name="back">Back</string>
+    <string name="show_coordinate_fail">Failed to show coordinates</string>
+    <string name="location_permission_denied">Location permission must be granted to get your location</string>
+    <string name="refresh">Refresh</string>
 </resources>

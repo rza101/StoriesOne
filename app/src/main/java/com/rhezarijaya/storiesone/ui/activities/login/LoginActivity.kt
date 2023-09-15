@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.rhezarijaya.storiesone.R
 import com.rhezarijaya.storiesone.databinding.ActivityLoginBinding
@@ -44,16 +46,11 @@ class LoginActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        // TODO use only ontextchanged, ref: create activity
-        binding.edLoginPassword.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        binding.edLoginPassword.addTextChangedListener(
+            onTextChanged = { _, _, _, _ ->
                 setLoginButtonEnabled()
             }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
+        )
 
         binding.btnLogin.setOnClickListener {
             val email = binding.edLoginEmail.text.toString()
@@ -123,7 +120,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setLoadingVisible(isVisible: Boolean) {
-        binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
+        binding.progressBar.isVisible = isVisible
     }
 
     private fun setLoginButtonEnabled() = binding.run {
