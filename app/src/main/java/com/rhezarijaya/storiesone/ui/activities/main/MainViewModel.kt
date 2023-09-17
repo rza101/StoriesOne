@@ -1,15 +1,18 @@
 package com.rhezarijaya.storiesone.ui.activities.main
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.cachedIn
 import com.rhezarijaya.storiesone.data.StoryRepository
 import com.rhezarijaya.storiesone.data.UserRepository
-import com.rhezarijaya.storiesone.data.network.LocationType
 
+@ExperimentalPagingApi
 class MainViewModel(
-    private val storyRepository: StoryRepository,
+    storyRepository: StoryRepository,
     private val userRepository: UserRepository
 ) : ViewModel() {
-    fun getStories() = storyRepository.getStories(location = LocationType.LOCATION_OFF)
+    val stories = storyRepository.getStoriesPaged().cachedIn(viewModelScope)
 
     suspend fun isLoggedIn() = userRepository.getLoginData() != null
 

@@ -45,4 +45,6 @@
     <string name="show_coordinate_fail">Failed to show coordinates</string>
     <string name="location_permission_denied">Location permission must be granted to get your location</string>
     <string name="refresh">Refresh</string>
+    <string name="load_more_failed">Failed to load more data</string>
+    <string name="retry">Retry</string>
 </resources>

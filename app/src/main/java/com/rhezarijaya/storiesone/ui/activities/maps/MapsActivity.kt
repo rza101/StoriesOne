@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.paging.ExperimentalPagingApi
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -23,6 +24,7 @@ import com.rhezarijaya.storiesone.util.Helpers
 import com.rhezarijaya.storiesone.util.Result
 import com.rhezarijaya.storiesone.util.ViewModelFactory
 
+@ExperimentalPagingApi
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var binding: ActivityMapsBinding

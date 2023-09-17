@@ -13,8 +13,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rhezarijaya.storiesone.R
@@ -23,14 +24,16 @@ import com.rhezarijaya.storiesone.ui.activities.create.CreateActivity
 import com.rhezarijaya.storiesone.ui.activities.detail.DetailActivity
 import com.rhezarijaya.storiesone.ui.activities.login.LoginActivity
 import com.rhezarijaya.storiesone.ui.activities.maps.MapsActivity
+import com.rhezarijaya.storiesone.ui.adapters.LoadingStateAdapter
 import com.rhezarijaya.storiesone.ui.adapters.StoryItemAdapter
 import com.rhezarijaya.storiesone.util.Helpers
-import com.rhezarijaya.storiesone.util.Result
 import com.rhezarijaya.storiesone.util.ViewModelFactory
 import kotlinx.coroutines.launch
 
+@ExperimentalPagingApi
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var storyItemAdapter: StoryItemAdapter
 
     private val mainViewModel by viewModels<MainViewModel> {
         ViewModelFactory.getInstance(this)
@@ -38,19 +41,10 @@ class MainActivity : AppCompatActivity() {
     private val intentCreateLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == CREATE_POST_RESULT_CODE) {
-                loadData(true)
+                storyItemAdapter.refresh() // untuk mengambil ulang data, saya menggunakan refresh dari adapter
+                loadAdapter() // adapter juga perlu di load ulang agar post terbaru muncul di atas
             }
         }
-    private val storyItemAdapter = StoryItemAdapter { story, binding ->
-        val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-            this,
-            Pair(binding.ivItemPhoto, "detailPhoto"),
-            Pair(binding.tvItemName, "name"),
-        )
-        startActivity(Intent(this, DetailActivity::class.java).apply {
-            putExtra(DetailActivity.STORY_ITEM_KEY, story)
-        }, optionsCompat.toBundle())
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,25 +67,24 @@ class MainActivity : AppCompatActivity() {
                 return@launch
             }
 
-            binding.rvStories.apply {
-                adapter = storyItemAdapter
-                layoutManager =
-                    if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        LinearLayoutManager(this@MainActivity)
-                    } else {
-                        GridLayoutManager(this@MainActivity, 2)
-                    }
-            }
+            binding.rvStories.layoutManager =
+                if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    LinearLayoutManager(this@MainActivity)
+                } else {
+                    GridLayoutManager(this@MainActivity, 2)
+                }
 
             binding.fabAdd.setOnClickListener {
                 intentCreateLauncher.launch(Intent(this@MainActivity, CreateActivity::class.java))
             }
 
-            binding.fabRefresh.setOnClickListener {
-                loadData(true)
-            }
+            loadAdapter()
 
-            loadData()
+            mainViewModel.stories.observe(this@MainActivity) { data ->
+                storyItemAdapter.submitData(lifecycle, data.map {
+                    Helpers.storyEntitytoStoryResponse(it)
+                })
+            }
         }
     }
 
@@ -147,66 +140,29 @@ class MainActivity : AppCompatActivity() {
 
         R.id.action_maps -> {
             startActivity(Intent(this, MapsActivity::class.java))
-
             true
         }
 
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun loadData(scrollToTop: Boolean = false) {
-        setInfoText(null)
-        mainViewModel.getStories().observe(this) { result ->
-            when (result) {
-                is Result.Success -> {
-                    setLoadingVisible(false)
-
-                    if (!result.data.error) {
-                        storyItemAdapter.submitList(result.data.listStory) {
-                            // callback ini akan dipanggil setelah selesai melakukan diff
-                            // jika perlu scroll ke atas maka akan dilakukan scroll
-                            if (scrollToTop) {
-                                binding.rvStories.smoothScrollToPosition(0)
-                            }
-                        }
-
-                        if (result.data.listStory.isEmpty()) {
-                            setInfoText(getString(R.string.no_data))
-                        }
-                    } else {
-                        Toast.makeText(
-                            this,
-                            getString(R.string.story_list_fetch_failed), Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-
-                is Result.Loading -> {
-                    setLoadingVisible(true)
-                }
-
-                is Result.Error -> {
-                    setInfoText(getString(R.string.failed_to_fetch_data))
-                    result.exception.getData()?.let { exception ->
-                        setLoadingVisible(false)
-                        Helpers.retrofitExceptionHandler(
-                            this,
-                            exception
-                        )
-                    }
-                }
-            }
+    private fun loadAdapter() {
+        storyItemAdapter = StoryItemAdapter { story, binding ->
+            val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this,
+                Pair(binding.ivItemPhoto, "detailPhoto"),
+                Pair(binding.tvItemName, "name"),
+            )
+            startActivity(Intent(this, DetailActivity::class.java).apply {
+                putExtra(DetailActivity.STORY_ITEM_KEY, story)
+            }, optionsCompat.toBundle())
         }
-    }
 
-    private fun setInfoText(info: String?) {
-        binding.tvMainInfo.text = info ?: ""
-        binding.tvMainInfo.isVisible = !info.isNullOrEmpty()
-    }
+        binding.rvStories.adapter = storyItemAdapter.withLoadStateFooter(LoadingStateAdapter {
+            storyItemAdapter.retry()
+        })
 
-    private fun setLoadingVisible(isVisible: Boolean) {
-        binding.progressBar.isVisible = isVisible
-        binding.fabRefresh.isEnabled = !isVisible
+        binding.rvStories.smoothScrollToPosition(0)
     }
 
     companion object {

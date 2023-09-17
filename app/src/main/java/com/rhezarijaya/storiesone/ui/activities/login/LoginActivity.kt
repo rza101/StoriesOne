@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import com.rhezarijaya.storiesone.R
 import com.rhezarijaya.storiesone.databinding.ActivityLoginBinding
 import com.rhezarijaya.storiesone.ui.activities.main.MainActivity
@@ -20,6 +21,7 @@ import com.rhezarijaya.storiesone.util.Result
 import com.rhezarijaya.storiesone.util.ViewModelFactory
 import kotlinx.coroutines.launch
 
+@ExperimentalPagingApi
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 

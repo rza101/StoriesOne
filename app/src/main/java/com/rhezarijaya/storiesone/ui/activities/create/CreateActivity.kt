@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.paging.ExperimentalPagingApi
 import com.bumptech.glide.Glide
 import com.rhezarijaya.storiesone.BuildConfig
 import com.rhezarijaya.storiesone.R
@@ -21,6 +22,7 @@ import com.rhezarijaya.storiesone.util.Result
 import com.rhezarijaya.storiesone.util.ViewModelFactory
 import java.io.File
 
+@ExperimentalPagingApi
 class CreateActivity : AppCompatActivity() {
     private val createViewModel by viewModels<CreateViewModel> {
         ViewModelFactory.getInstance(this)

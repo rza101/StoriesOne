@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import com.rhezarijaya.storiesone.databinding.ActivitySplashBinding
 import com.rhezarijaya.storiesone.ui.activities.login.LoginActivity
 import com.rhezarijaya.storiesone.ui.activities.main.MainActivity
@@ -18,6 +19,7 @@ import com.rhezarijaya.storiesone.util.ViewModelFactory
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@ExperimentalPagingApi
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding

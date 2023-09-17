@@ -3,6 +3,7 @@ package com.rhezarijaya.storiesone.util
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.paging.ExperimentalPagingApi
 import com.rhezarijaya.storiesone.data.StoryRepository
 import com.rhezarijaya.storiesone.data.UserRepository
 import com.rhezarijaya.storiesone.di.Injection
@@ -13,6 +14,7 @@ import com.rhezarijaya.storiesone.ui.activities.maps.MapsViewModel
 import com.rhezarijaya.storiesone.ui.activities.register.RegisterViewModel
 import com.rhezarijaya.storiesone.ui.activities.splash.SplashViewModel
 
+@ExperimentalPagingApi
 class ViewModelFactory private constructor(
     private val storyRepository: StoryRepository,
     private val userRepository: UserRepository

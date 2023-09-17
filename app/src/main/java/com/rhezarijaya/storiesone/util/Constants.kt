@@ -7,6 +7,7 @@ object Constants {
 // TODO
 // android:contentDescription
 // cek dribble for reference: https://dribbble.com/search/shots/popular/mobile?q=travelling
+// imageview
 
 // AFTER DONE
 // Analyze → Inspect Code

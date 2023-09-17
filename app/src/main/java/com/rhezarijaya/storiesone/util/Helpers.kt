@@ -16,6 +16,8 @@ import com.google.gson.Gson
 import com.rhezarijaya.storiesone.BuildConfig
 import com.rhezarijaya.storiesone.R
 import com.rhezarijaya.storiesone.data.network.response.BaseResponse
+import com.rhezarijaya.storiesone.data.network.response.Story
+import com.rhezarijaya.storiesone.data.room.entity.StoryEntity
 import retrofit2.HttpException
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -137,4 +139,24 @@ object Helpers {
             ).show()
         }
     }
+
+    fun storyEntitytoStoryResponse(storyEntity: StoryEntity) = Story(
+        id = storyEntity.id,
+        photoUrl = storyEntity.photoUrl,
+        createdAt = storyEntity.createdAt,
+        name = storyEntity.name,
+        description = storyEntity.description,
+        lat = storyEntity.lat,
+        lon = storyEntity.lon
+    )
+
+    fun storyResponseToStoryEntity(story: Story) = StoryEntity(
+        id = story.id,
+        photoUrl = story.photoUrl,
+        createdAt = story.createdAt,
+        name = story.name,
+        description = story.description,
+        lat = story.lat,
+        lon = story.lon
+    )
 }

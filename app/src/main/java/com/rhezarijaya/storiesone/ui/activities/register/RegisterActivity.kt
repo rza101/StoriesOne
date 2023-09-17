@@ -1,18 +1,19 @@
 package com.rhezarijaya.storiesone.ui.activities.register
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.paging.ExperimentalPagingApi
 import com.rhezarijaya.storiesone.R
 import com.rhezarijaya.storiesone.databinding.ActivityRegisterBinding
 import com.rhezarijaya.storiesone.util.Helpers
 import com.rhezarijaya.storiesone.util.Result
 import com.rhezarijaya.storiesone.util.ViewModelFactory
 
+@ExperimentalPagingApi
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
 
