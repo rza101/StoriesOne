@@ -48,6 +48,7 @@ android {
     // java.lang.RuntimeException: Method isLoggable in android.util.Log not mocked
     // solusi yang diberikan pada stack trace nya: https://developer.android.com/r/studio-ui/build/not-mocked
     testOptions {
+        animationsDisabled = true
         unitTests.isReturnDefaultValues = true
     }
 }
@@ -68,6 +69,9 @@ dependencies {
     // datastore preferences
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+    // Idling Resource
+    implementation("androidx.test.espresso:espresso-idling-resource:3.5.1")
+
     // livedata + viewmodel
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
@@ -83,6 +87,7 @@ dependencies {
 
     // google maps
     implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
     // retrofit
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -103,4 +108,11 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     testImplementation("org.mockito:mockito-core:5.5.0")
     testImplementation("org.mockito:mockito-inline:5.2.0")
+
+    // MockWebServer
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.9.3")
+    androidTestImplementation("com.squareup.okhttp3:okhttp-tls:4.9.3")
+
+    // Intents
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
 }

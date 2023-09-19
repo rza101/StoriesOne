@@ -13,17 +13,6 @@
         android:layout_height="match_parent"
         tools:ignore="FragmentTagUsage" />
 
-    <ImageButton
-        android:id="@+id/ib_back"
-        android:layout_width="@dimen/back_button_size"
-        android:layout_height="@dimen/back_button_size"
-        android:layout_margin="@dimen/root_padding_tablet"
-        android:background="@drawable/bg_back_button"
-        android:contentDescription="@string/back"
-        android:src="@drawable/baseline_arrow_back_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
@@ -34,15 +23,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_refresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/root_padding_tablet"
-        android:contentDescription="@string/refresh"
-        android:src="@drawable/baseline_refresh_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

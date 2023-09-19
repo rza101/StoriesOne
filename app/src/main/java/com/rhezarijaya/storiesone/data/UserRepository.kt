@@ -6,6 +6,7 @@ import com.rhezarijaya.storiesone.data.network.response.LoginResult
 import com.rhezarijaya.storiesone.data.network.service.StoryAPIService
 import com.rhezarijaya.storiesone.util.Result
 import com.rhezarijaya.storiesone.util.SingleEvent
+import com.rhezarijaya.storiesone.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.flow.first
 
 class UserRepository(
@@ -27,15 +28,20 @@ class UserRepository(
     }
 
     fun login(email: String, password: String) = liveData {
-        try {
-            emit(Result.Loading)
-            emit(Result.Success(storyApiService.login(email, password)))
-        } catch (e: Exception) {
-            emit(Result.Error(SingleEvent(e)))
+        wrapEspressoIdlingResource {
+            try {
+                emit(Result.Loading)
+                emit(Result.Success(storyApiService.login(email, password)))
+            } catch (e: Exception) {
+                emit(Result.Error(SingleEvent(e)))
+            }
         }
+
     }
 
-    suspend fun logout() = appPreference.clearPreferences()
+    suspend fun logout() = wrapEspressoIdlingResource {
+        appPreference.clearPreferences()
+    }
 
     fun register(name: String, email: String, password: String) = liveData {
         try {

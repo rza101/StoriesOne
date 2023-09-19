@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -19,15 +18,16 @@ import com.rhezarijaya.storiesone.ui.activities.register.RegisterActivity
 import com.rhezarijaya.storiesone.util.Helpers
 import com.rhezarijaya.storiesone.util.Result
 import com.rhezarijaya.storiesone.util.ViewModelFactory
+import com.rhezarijaya.storiesone.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.launch
 
 @ExperimentalPagingApi
 class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
-
     private val loginViewModel by viewModels<LoginViewModel> {
         ViewModelFactory.getInstance(this)
     }
+
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,17 +74,24 @@ class LoginActivity : AppCompatActivity() {
                             ).show()
 
                             lifecycleScope.launch {
-                                loginViewModel.saveLoginData(result.data.loginResult)
+                                wrapEspressoIdlingResource {
+                                    loginViewModel.saveLoginData(result.data.loginResult)
 
-                                // terdapat bug dimana terkadang setelah login terdapat masalah bad header
-                                // hasil analisis saya dikarenakan object api service pada injection masih
-                                // belum menggunakan bearer token dari login karena merupakan singleton
-                                // sehingga jika tidak di clear instancenya (atau restart aplikasi)
-                                // akan masih menggunakan api service yang tanpa bearer token
-                                ViewModelFactory.clearInstance()
+                                    // terdapat bug dimana terkadang setelah login terdapat masalah bad header
+                                    // hasil analisis saya dikarenakan object api service pada injection masih
+                                    // belum menggunakan bearer token dari login karena merupakan singleton
+                                    // sehingga jika tidak di clear instancenya (atau restart aplikasi)
+                                    // akan masih menggunakan api service yang tanpa bearer token
+                                    ViewModelFactory.clearInstance()
 
-                                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                                finish()
+                                    startActivity(
+                                        Intent(
+                                            this@LoginActivity,
+                                            MainActivity::class.java
+                                        )
+                                    )
+                                    finish()
+                                }
                             }
                         }
 

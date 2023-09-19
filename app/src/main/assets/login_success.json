@@ -1,0 +1,9 @@
+{
+  "error": false,
+  "message": "success",
+  "loginResult": {
+    "userId": "user-MOXiRQOUD7NQ9SYu",
+    "name": "seseorang",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLU1PWGlSUU9VRDdOUTlTWXUiLCJpYXQiOjE2OTUxMDI1MjZ9.d7C8GLDSF-shhrTu_D2kygXZCHknpYnrDf9Rybj0FZw"
+  }
+}

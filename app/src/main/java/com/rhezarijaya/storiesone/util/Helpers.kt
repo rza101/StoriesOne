@@ -89,6 +89,10 @@ object Helpers {
     fun isPermissionGranted(context: Context, permission: String): Boolean =
         ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
 
+    fun isPermissionGranted(context: Context, permission: Array<String>): Boolean = permission.all {
+        ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
+    }
+
     fun readImageFromUri(context: Context, uri: Uri): File {
         val file = createTempImageFile(context)
 

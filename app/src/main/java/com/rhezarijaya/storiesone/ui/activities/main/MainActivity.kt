@@ -13,8 +13,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadState
 import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -163,6 +165,17 @@ class MainActivity : AppCompatActivity() {
         })
 
         binding.rvStories.smoothScrollToPosition(0)
+
+        storyItemAdapter.addLoadStateListener {
+            // menampilkan loading hanya saat state refresh, bukan append atau prepend
+            // dan ketika state refresh bernilai loading
+            // sehingga saat halaman masih kosong atau refresh, maka akan tampil loading
+            setLoadingVisible(it.refresh == LoadState.Loading)
+        }
+    }
+
+    private fun setLoadingVisible(isVisible: Boolean) {
+        binding.progressBar.isVisible = isVisible
     }
 
     companion object {

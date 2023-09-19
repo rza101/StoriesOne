@@ -5,10 +5,9 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.rhezarijaya.storiesone.R
 import com.rhezarijaya.storiesone.data.network.response.Story
 import com.rhezarijaya.storiesone.databinding.ItemStoryBinding
+import com.rhezarijaya.storiesone.util.loadImage
 
 class StoryItemAdapter(private val onItemClick: (Story, ItemStoryBinding) -> Unit) :
     PagingDataAdapter<Story, StoryItemAdapter.ViewHolder>(DIFF_CALLBACK) {
@@ -28,11 +27,7 @@ class StoryItemAdapter(private val onItemClick: (Story, ItemStoryBinding) -> Uni
             val context = itemView.context
 
             binding.tvItemName.text = story.name
-            Glide.with(context)
-                .load(story.photoUrl)
-                .placeholder(R.drawable.baseline_broken_image_24)
-                .error(R.drawable.baseline_broken_image_24)
-                .into(binding.ivItemPhoto)
+            binding.ivItemPhoto.loadImage(story.photoUrl)
 
             itemView.setOnClickListener {
                 onItemClick(story, binding)

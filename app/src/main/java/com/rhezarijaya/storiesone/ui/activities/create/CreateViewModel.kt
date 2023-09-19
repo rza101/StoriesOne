@@ -2,14 +2,17 @@ package com.rhezarijaya.storiesone.ui.activities.create
 
 import androidx.lifecycle.ViewModel
 import androidx.paging.ExperimentalPagingApi
+import com.google.android.gms.maps.model.LatLng
 import com.rhezarijaya.storiesone.data.StoryRepository
 import com.rhezarijaya.storiesone.util.Helpers
 import java.io.File
 
 @ExperimentalPagingApi
 class CreateViewModel(private val storyRepository: StoryRepository) : ViewModel() {
-    var cameraImageFilepath: String? = null
     private var imageFile: File? = null
+
+    var cameraImageFilepath: String? = null
+    var latLng: LatLng? = null
 
     fun addStory(description: String, photo: File, latitude: Double?, longitude: Double?) =
         storyRepository.addStory(description, photo, latitude, longitude)

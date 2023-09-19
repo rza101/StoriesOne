@@ -15,11 +15,11 @@ import com.rhezarijaya.storiesone.util.ViewModelFactory
 
 @ExperimentalPagingApi
 class RegisterActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityRegisterBinding
-
     private val registerViewModel by viewModels<RegisterViewModel> {
         ViewModelFactory.getInstance(this)
     }
+
+    private lateinit var binding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

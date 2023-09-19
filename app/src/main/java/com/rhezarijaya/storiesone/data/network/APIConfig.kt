@@ -9,6 +9,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object APIConfig {
+    var TESTING_BASE_URL: String? = null
+
     fun getStoryAPIService(bearerToken: String): StoryAPIService {
         val authInterceptor = Interceptor { chain ->
             val request = chain.request()
@@ -33,7 +35,7 @@ object APIConfig {
 
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(BuildConfig.STORY_API_BASE_URL)
+            .baseUrl(TESTING_BASE_URL ?: BuildConfig.STORY_API_BASE_URL)
             .client(httpClient)
             .build()
 

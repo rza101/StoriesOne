@@ -4,6 +4,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -26,15 +28,11 @@ import com.rhezarijaya.storiesone.util.ViewModelFactory
 
 @ExperimentalPagingApi
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
-
-    private lateinit var binding: ActivityMapsBinding
-    private lateinit var mMap: GoogleMap
-
     private val mapsViewModel by viewModels<MapsViewModel> {
         ViewModelFactory.getInstance(this)
     }
 
-    private val permissionLauncher =
+    private val locationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             if (it) {
                 enableMyLocation()
@@ -47,19 +45,46 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
+    private lateinit var binding: ActivityMapsBinding
+    private lateinit var mMap: GoogleMap
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.apply {
+            title = getString(R.string.maps)
+            setDisplayHomeAsUpEnabled(true)
+        }
+
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
+    }
 
-        binding.ibBack.setOnClickListener {
-            onBackPressed()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_maps, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_refresh_map -> {
+                loadMarkers()
+                true
+            }
+
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -68,6 +93,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.apply {
             isCompassEnabled = true
             isIndoorLevelPickerEnabled = false
+            isMapToolbarEnabled = true
+            isZoomControlsEnabled = true
         }
 
         try {
@@ -79,18 +106,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         enableMyLocation()
         loadMarkers()
-
-        binding.fabRefresh.setOnClickListener {
-            loadMarkers()
-        }
     }
 
     @SuppressLint("MissingPermission")
     private fun enableMyLocation() {
-        if (Helpers.isPermissionGranted(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+        if (Helpers.isPermissionGranted(this, LOCATION_PERMISSION)) {
             mMap.isMyLocationEnabled = true
         } else {
-            permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            locationPermissionLauncher.launch(LOCATION_PERMISSION)
         }
     }
 
@@ -133,7 +156,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     setLoadingVisible(false)
                     Toast.makeText(
                         this,
-                        getString(R.string.show_coordinate_fail), Toast.LENGTH_SHORT
+                        getString(R.string.show_markers_fail), Toast.LENGTH_SHORT
                     ).show()
                 }
             }
@@ -141,7 +164,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setLoadingVisible(isVisible: Boolean) {
-        binding.fabRefresh.isEnabled = !isVisible
         binding.progressBar.isVisible = isVisible
+    }
+
+    companion object {
+        private const val LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION
     }
 }
