@@ -1,13 +1,10 @@
 package com.rhezarijaya.storiesone.data.room.entity
 
-import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "stories")
-@Parcelize
 data class StoryEntity(
     @PrimaryKey
     val id: String,
@@ -29,4 +26,4 @@ data class StoryEntity(
 
     @ColumnInfo("lon")
     val lon: Double? = null,
-) : Parcelable
+)

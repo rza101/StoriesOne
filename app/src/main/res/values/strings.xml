@@ -4,7 +4,6 @@
     <string name="coordinate_format">Position: %.5f, %.5f</string>
     <string name="created_at_format">Posted at: %s</string>
 
-    <string name="back">Back</string>
     <string name="camera">Camera</string>
     <string name="camera_permission_denied">Camera permission must be enabled to use camera</string>
     <string name="camera_permission_granted">You can use camera now</string>
@@ -15,7 +14,6 @@
     <string name="create_story">Create Story</string>
     <string name="description">Description</string>
     <string name="email">Email</string>
-    <string name="failed_to_fetch_data">Failed to fetch data</string>
     <string name="fine_location_permission_denied">Precise location permission must be granted to get your location</string>
     <string name="gallery">Gallery</string>
     <string name="image_and_desc_required">Please select an image and fill the description first</string>
@@ -36,7 +34,6 @@
     <string name="maps">Maps</string>
     <string name="name">Name</string>
     <string name="no">No</string>
-    <string name="no_data">No Data</string>
     <string name="no_location">No Location</string>
     <string name="not_logged_in">You are not logged in. Please login first</string>
     <string name="password">Password</string>
@@ -48,7 +45,6 @@
     <string name="retry">Retry</string>
     <string name="share_your_location">Share your Location</string>
     <string name="show_markers_fail">Failed to show posts coordinate</string>
-    <string name="story_list_fetch_failed">Failed to fetch story</string>
     <string name="unexpected_error">Unexpected error</string>
     <string name="update">Update</string>
     <string name="upload_post">Upload Post</string>

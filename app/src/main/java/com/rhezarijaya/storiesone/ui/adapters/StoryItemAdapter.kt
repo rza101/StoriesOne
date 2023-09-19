@@ -24,7 +24,6 @@ class StoryItemAdapter(private val onItemClick: (Story, ItemStoryBinding) -> Uni
         RecyclerView.ViewHolder(binding.root) {
         fun bind(story: Story) {
             val binding = binding
-            val context = itemView.context
 
             binding.tvItemName.text = story.name
             binding.ivItemPhoto.loadImage(story.photoUrl)

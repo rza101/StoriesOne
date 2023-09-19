@@ -3,7 +3,6 @@
     <string name="coordinate_format">Posisi: %.5f, %.5f</string>
     <string name="created_at_format">Dibuat pada: %s</string>
 
-    <string name="back">Kembali</string>
     <string name="camera">Kamera</string>
     <string name="camera_permission_denied">Perizinan kamera harus diaktifkan agar dapat menggunakan kamera</string>
     <string name="camera_permission_granted">Anda dapat menggunakan kamera</string>
@@ -14,7 +13,6 @@
     <string name="create_story">Buat Cerita</string>
     <string name="description">Deskripsi</string>
     <string name="email">Email</string>
-    <string name="failed_to_fetch_data">Gagal memuat data</string>
     <string name="fine_location_permission_denied">Perizinan lokasi akurat harus diaktifkan agar dapat memperoleh lokasi anda</string>
     <string name="gallery">Galeri</string>
     <string name="image_and_desc_required">Mohon untuk memilih gambar dan mengisi deskripsi dahulu</string>
@@ -35,7 +33,6 @@
     <string name="maps">Peta</string>
     <string name="name">Nama</string>
     <string name="no">Tidak</string>
-    <string name="no_data">Tidak ada data</string>
     <string name="no_location">Tidak ada lokasi</string>
     <string name="not_logged_in">Anda belum masuk. Silahkan masuk terlebih dahulu</string>
     <string name="password">Kata Sandi</string>
@@ -47,7 +44,6 @@
     <string name="retry">Coba lagi</string>
     <string name="share_your_location">Bagikan lokasi anda</string>
     <string name="show_markers_fail">Gagal menampilkan koordinat kiriman</string>
-    <string name="story_list_fetch_failed">Gagal mendapatkan cerita</string>
     <string name="unexpected_error">Kesalahan tak terduga</string>
     <string name="update">Perbarui</string>
     <string name="upload_post">Unggah Cerita</string>

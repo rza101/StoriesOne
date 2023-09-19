@@ -8,7 +8,7 @@ import androidx.core.widget.addTextChangedListener
 import com.rhezarijaya.storiesone.R
 import com.rhezarijaya.storiesone.util.Helpers
 
-// saran submission 1: email dan password bisa digabung menjadi 1 custom edit text
+// saran dari submission 1: email dan password bisa digabung menjadi 1 custom edit text
 class CustomEditText : AppCompatEditText {
     constructor(context: Context) : super(context) {
         initialize()
@@ -28,7 +28,8 @@ class CustomEditText : AppCompatEditText {
 
     private fun initialize() {
         // saat dilakukan cek dengan logcat, input type yang diharapkan untuk tipe email dan password
-        // ditambah 1, sehingga bisa memakai operasi or untuk menambah 1 (TYPE_CLASS_TEXT) ke tipe tersebut
+        // seakan ditambah 1 secara binary, sehingga bisa memakai operasi bitwise or
+        // untuk menambah 1 (TYPE_CLASS_TEXT) ke tipe tersebut
         when (inputType) {
             InputType.TYPE_CLASS_TEXT.or(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS) -> {
                 addTextChangedListener(

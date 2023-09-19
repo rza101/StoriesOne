@@ -26,7 +26,6 @@ class LoadingStateAdapter(private val retry: () -> Unit) :
 
     inner class ViewHolder(private val binding: ItemFooterBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private val context = binding.root.context
 
         init {
             binding.btnRetry.setOnClickListener {
